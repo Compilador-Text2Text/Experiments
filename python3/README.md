@@ -25,3 +25,8 @@ help(re)
 
 # Informació Adicional REGEX
 - [Sembla un tokenizer](https://docs.python.org/3.6/library/re.html#re-objects)
+
+# Informació més adequada
+- Google: tokenize python example
+- [Crec que ja està](https://docs.python.org/3/library/tokenize.html)
+- python -m tokenize <nomfitxer>
