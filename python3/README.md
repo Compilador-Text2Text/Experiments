@@ -22,6 +22,7 @@ help(re)
 - [font](http://www.regular-expressions.info/recurse.html#balanced)
 - [stack](https://stackoverflow.com/questions/546433/regular-expression-to-match-outer-brackets)
 - Google: regex recursion python
+- [font2 Egg](http://www.rexegg.com/regex-recursion.html)
 
 # Informació Adicional REGEX
 - [Sembla un tokenizer](https://docs.python.org/3.6/library/re.html#re-objects)
