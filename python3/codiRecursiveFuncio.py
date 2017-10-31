@@ -13,5 +13,8 @@ tf = open (name, 'r')
 ft = tf.read()
 tf.close()
 
-m = regex.search ('{((?:[^{}]|(?R))*)}', ft)
+m = regex.search ('[^{}]*({((?:[^{}]|(?R))*)})', ft)
+altr = '(int)\s+\w*\s*'
+recP = '(\(((?:[^()]|(?R))*)\))'
+m = regex.search ( recP, ft)
 print (m.group())

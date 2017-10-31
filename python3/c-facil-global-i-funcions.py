@@ -25,20 +25,48 @@ descriptor  = '((?P<global>[,;=])|(?P<funció>\())'
 
 str_global_funció = '\s*' + tipus + punter + nom + '\s*' + descriptor
 
+def _comptador_obert_tancat (text, diccionari, on_comptar):
+    valor = 1
+    index = 0
+    regex = '[^' + on_comptar + ']*'
+
+    while valor:
+        trobar = re.match (regex, text[index:])
+        if not trobar:
+            print ('Error, no tanca:', on_comptar, '\n', text)
+            return False
+
+        byte = text[index + trobar.end()]
+        index += trobar.end() +1
+        if byte == on_comptar[0]: valor+=1
+        elif byte == on_comptar[1]:valor-=1
+    diccionari[on_comptar] = text[:index -1]
+    return index
 
 def _global_funció (regex, text, index, variables, funcions):
-    text = text[index:]
-    r = re.match (regex, text)
-    print (r)
-    print (r.groupdict())
-
+    trobar = re.match (regex, text[index:])
     # Finalitza?
-    if not r:
-        return (False, 0)
+    if not trobar: return (False, index)
 
-    if r.group ('funció'):
-        pass
-    elif r.group ('global'):
+    print (trobar)
+    print (trobar.groupdict())
+    diccionari = trobar.groupdict ()
+    index += trobar.end ()
+
+    if trobar.group ('funció'):
+        index += _comptador_obert_tancat (text[index:], diccionari, '()')
+
+        trobar = re.match ('\s*{', text[index:])
+        if not trobar:
+            print ('ERROR, no hi ha codi després dels arguments!')
+            return (False, 0)
+        index += trobar.end ()
+
+        index += _comptador_obert_tancat (text[index:], diccionari, '{}')
+        funcions[diccionari['nom']] = None
+        return (True, index)
+
+    elif trobar.group ('global'):
         pass
     return (False, 0)
 
@@ -47,8 +75,9 @@ def global_funció (regex, text):
     descriptor_funció = dict ()
     bolea = True
     index = 0
+    #while bolea and (index < len(text)):
     while bolea:
         (bolea, index) = _global_funció (regex, text, index, variables_globals, descriptor_funció)
-    pass
+    return descriptor_funció
 
-global_funció (str_global_funció, ft)
+t = global_funció (str_global_funció, ft)
