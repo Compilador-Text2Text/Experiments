@@ -40,6 +40,8 @@ int main ()
 		close (fdin[0]);
 		dup2 (fdout[0], STDIN_FILENO);
 		dup2 (fdin[1], STDOUT_FILENO);
+		close (fdout[0]); // Quan he fet ls -l /proc/<id>/fd
+		close (fdin[1]);  // Sortien coses estranyes. Ara tot normal.
 		printf ("Estic viu! Sóc el fill\n");
 		execl ("./parla.py", NULL);//"./parla.py", NULL);
 		break;
